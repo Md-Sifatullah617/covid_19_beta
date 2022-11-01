@@ -119,7 +119,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20,),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Row(
