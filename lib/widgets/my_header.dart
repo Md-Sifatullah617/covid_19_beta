@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../info_screen.dart';
+import '../main.dart';
 import 'counter.dart';
-
+int counter = 0;
 class MyHeader extends StatelessWidget {
   const MyHeader({
     Key? key, required this.image, required this.textTop, required this.textBottom,
@@ -30,8 +32,22 @@ class MyHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Align(
-                alignment: Alignment.topRight,
-                child: SvgPicture.asset("assets/icons/menu.svg")),
+            alignment: Alignment.topRight,
+            child: InkWell(
+              child: SvgPicture.asset("assets/icons/menu.svg"),
+              onTap: () {
+                if(counter==0){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const InfoScreen()));
+                  counter+=1;
+                }else{
+                  Navigator.pop(context,
+                      MaterialPageRoute(builder: (context) => const MyHomePage()));
+                  counter-=1;
+                }
+
+              },
+            )),
             const SizedBox(
               height: 20,
             ),
