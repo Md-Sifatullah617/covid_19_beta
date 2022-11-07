@@ -1,4 +1,5 @@
 import 'package:covid_19_beta/widgets/counter.dart';
+import 'package:covid_19_beta/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -34,52 +35,7 @@ class MyHomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ClipPath(
-              clipper: MyClipper(),
-              child: Container(
-                padding: const EdgeInsets.only(left: 40, top: 50, right: 20),
-                height: 350,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [Color(0xff3383cd), Color(0xff11249f)]),
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/virus.png"))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                        alignment: Alignment.topRight,
-                        child: SvgPicture.asset("assets/icons/menu.svg")),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Expanded(
-                        child: Stack(
-                      children: [
-                        SvgPicture.asset("assets/icons/Drcorona.svg",
-                            width: 230,
-                            fit: BoxFit.fitWidth,
-                            alignment: Alignment.topCenter),
-                        const Positioned(
-                            top: 20,
-                            left: 150,
-                            child: Text(
-                              'All you need\nStay at home.',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            )),
-                        Container(),
-                      ],
-                    ))
-                  ],
-                ),
-              ),
-            ),
+            const MyHeader(image: 'assets/icons/Drcorona.svg', textTop: 'All you need', textBottom: 'is stay at home',),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -233,4 +189,6 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+
 
