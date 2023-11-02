@@ -1,38 +1,39 @@
-import 'package:covid_19_beta/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'widgets/my_header.dart';
 
 class InfoScreen extends StatelessWidget {
   const InfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const MyHeader(
+            MyHeader(
                 image: "assets/icons/coronadr.svg",
                 textTop: "Get to know",
                 textBottom: "About Covid-19"),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "Symptoms",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Color(0xFF303030)),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       SymptomsCard(
                         image: 'assets/images/headache.png',
                         title: 'Headache',
@@ -48,30 +49,30 @@ class InfoScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
-                  const Text(
+                  Text(
                     "Prevention",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Color(0xFF303030)),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
-                  const PreventedCard(
+                  PreventedCard(
                     image: 'assets/images/wear_mask.png',
                     title: 'Wear face mask',
                     text:
                         "Since the start of the coronavirus outbreak some places have fully embraced wearing faemasks",
                   ),
-                  const PreventedCard(
+                  PreventedCard(
                     image: 'assets/images/wash_hands.png',
                     title: 'Wash your hands',
                     text:
-                    "Since the start of the coronavirus outbreak some places have fully embraced wearing faemasks",
+                        "Since the start of the coronavirus outbreak some places have fully embraced wearing faemasks",
                   )
                 ],
               ),
