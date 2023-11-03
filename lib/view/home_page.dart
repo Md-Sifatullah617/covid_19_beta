@@ -1,12 +1,19 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'widgets/counter.dart';
 import 'widgets/my_header.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController countryController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +27,6 @@ class MyHomePage extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: 60,
               width: double.infinity,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -29,32 +34,26 @@ class MyHomePage extends StatelessWidget {
                   border: Border.all(color: const Color(0xffe5e5e5))),
               child: Row(
                 children: [
+                  const SizedBox(
+                    width: 20,
+                  ),
                   SvgPicture.asset("assets/icons/maps-and-flags.svg"),
                   const SizedBox(
                     width: 20,
                   ),
                   Expanded(
-                    child: DropdownButton(
-                      isExpanded: true,
-                      underline: const SizedBox(),
-                      icon: SvgPicture.asset("assets/icons/dropdown.svg"),
-                      value: 'Bangladesh',
-                      items: [
-                        'Bangladesh',
-                        'Pakistan',
-                        'India',
-                        'Indonesia',
-                        'United States',
-                        'Japan'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {},
+                    child: CountryCodePicker(
+                      padding: EdgeInsets.zero,
+                      onChanged: ((value) {
+                        countryController.text = value.name!;
+                        print(value.name);
+                      }),
+                      initialSelection: 'BD',
+                      showCountryOnly: true,
+                      showOnlyCountryWhenClosed: true,
+                      alignLeft: true,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
