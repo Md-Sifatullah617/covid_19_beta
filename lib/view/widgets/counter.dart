@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class NewWidget extends StatelessWidget {
   const NewWidget({
-    Key? key,
+    super.key,
     required this.number,
     required this.color,
     required this.title,
-  }) : super(key: key);
+  });
 
-  final int number;
+  final String number;
   final Color color;
   final String title;
   @override
@@ -16,8 +18,8 @@ class NewWidget extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(6),
-          height: 25,
-          width: 25,
+          height: 25.h,
+          width: 25.w,
           decoration: BoxDecoration(
               shape: BoxShape.circle, color: color.withOpacity(.26)),
           child: Container(
@@ -32,11 +34,11 @@ class NewWidget extends StatelessWidget {
         ),
         Text(
           "$number",
-          style: TextStyle(fontSize: 40, color: color),
+          style: TextStyle(fontSize: 18.sp, color: color),
         ),
         Text(
           title,
-          style: const TextStyle(fontSize: 16, color: Color(0xFF959595)),
+          style: TextStyle(fontSize: 16.sp, color: const Color(0xFF959595)),
         )
       ],
     );

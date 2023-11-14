@@ -1,19 +1,19 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:covid_19_beta/controller/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:get/get.dart';
 import 'widgets/counter.dart';
 import 'widgets/my_header.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController countryController = TextEditingController();
+
+  final ApiService controller = Get.put(ApiService());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,18 +42,60 @@ class _MyHomePageState extends State<MyHomePage> {
                     width: 20,
                   ),
                   Expanded(
-                    child: CountryCodePicker(
-                      padding: EdgeInsets.zero,
-                      onChanged: ((value) {
-                        countryController.text = value.name!;
-                        print(value.name);
-                      }),
-                      initialSelection: 'BD',
-                      showCountryOnly: true,
-                      showOnlyCountryWhenClosed: true,
-                      alignLeft: true,
+                    child: InkWell(
+                      onTap: () {
+                        showCountryPicker(
+                          context: context,
+                          countryListTheme: const CountryListThemeData(
+                            flagSize: 25,
+                            backgroundColor: Colors.white,
+                            textStyle:
+                                TextStyle(fontSize: 16, color: Colors.blueGrey),
+                            bottomSheetHeight: 500,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
+                            inputDecoration: InputDecoration(
+                              contentPadding: EdgeInsets.zero,
+                              labelText: 'Search',
+                              hintText: 'Start typing to search',
+                              prefixIcon: Icon(Icons.search),
+                              border: UnderlineInputBorder(),
+                            ),
+                          ),
+                          onSelect: (Country country) {
+                            print('Select country: ${country.displayName}');
+                            countryController.text =
+                                '${country.flagEmoji}\t${country.displayNameNoCountryCode}';
+                            controller.getCountryData(country.countryCode);
+                          },
+                        );
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          controller: countryController,
+                          decoration: const InputDecoration(
+                              hintText: 'Search by country',
+                              border: InputBorder.none),
+                        ),
+                      ),
                     ),
                   ),
+                  ValueListenableBuilder(
+                    valueListenable: countryController,
+                    builder: (context, value, child) => IconButton(
+                        onPressed: () {
+                          countryController.clear();
+                          controller.getData();
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: countryController.text.isEmpty
+                              ? Colors.transparent
+                              : Colors.blueGrey,
+                        )),
+                  )
                 ],
               ),
             ),
@@ -101,25 +143,54 @@ class _MyHomePageState extends State<MyHomePage> {
                               blurRadius: 30,
                               color: const Color(0xFFB7B7B7).withOpacity(.16))
                         ]),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        NewWidget(
-                          number: 1050,
-                          color: Color(0xFFFF8748),
-                          title: 'infected',
-                        ),
-                        NewWidget(
-                          number: 87,
-                          color: Color(0xFFFF4848),
-                          title: 'deaths',
-                        ),
-                        NewWidget(
-                          number: 46,
-                          color: Color(0xFF36C12C),
-                          title: 'recovered',
-                        )
-                      ],
+                    child: Obx(
+                      () => controller.isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                NewWidget(
+                                  number: countryController.text.isEmpty
+                                      ? controller.allData['cases'].toString()
+                                      : controller.countrywiseData.isEmpty
+                                          ? '0'
+                                          : controller.countrywiseData[0].cases
+                                              .toString(),
+                                  color: const Color(0xFFFF8748),
+                                  title: 'infected',
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                NewWidget(
+                                  number: countryController.text.isEmpty
+                                      ? controller.allData['deaths'].toString()
+                                      : controller.countrywiseData.isEmpty
+                                          ? '0'
+                                          : controller.countrywiseData[0].deaths
+                                              .toString(),
+                                  color: const Color(0xFFFF4848),
+                                  title: 'deaths',
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                NewWidget(
+                                  number: countryController.text.isEmpty
+                                      ? controller.allData['recovered']
+                                          .toString()
+                                      : controller.countrywiseData.isEmpty
+                                          ? '0'
+                                          : controller
+                                              .countrywiseData[0].recovered
+                                              .toString(),
+                                  color: const Color(0xFF36C12C),
+                                  title: 'recovered',
+                                )
+                              ],
+                            ),
                     ),
                   ),
                   const SizedBox(
