@@ -9,11 +9,11 @@ int counter = 0;
 
 class MyHeader extends StatelessWidget {
   const MyHeader({
-    Key? key,
+    super.key,
     required this.image,
     required this.textTop,
     required this.textBottom,
-  }) : super(key: key);
+  });
 
   final String image;
   final String textTop;

@@ -23,28 +23,40 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.lightBlue,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      color: const Color(0xff3383cd),
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Spin(
-            infinite: true,
+          Container(),
+          Transform.rotate(
+            angle: 0.5,
             child: Image.asset(
-              "assets/images/corona.png",
+              "assets/images/virus.png",
             ),
           ),
-          SizedBox(
-            height: 15.h,
-          ),
-          BounceInDown(
-            duration: const Duration(seconds: 2),
-            child: Text(
-              "Covid View",
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    color: Colors.white,
-                    fontSize: 30.sp,
-                  ),
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spin(
+                infinite: true,
+                child: Image.asset(
+                  "assets/images/corona.png",
+                ),
+              ),
+              SizedBox(
+                height: 15.h,
+              ),
+              BounceInDown(
+                duration: const Duration(seconds: 2),
+                child: Text(
+                  "Covid View",
+                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                        color: Colors.white,
+                        fontSize: 30.sp,
+                      ),
+                ),
+              ),
+            ],
           )
         ],
       ),
